@@ -59,7 +59,8 @@
     }"
     class="px-8 py-3 mt-10 text-2xl font-bold text-white rounded-full bg-brand-main focus:outline-none transition-all duration-150"
   >
-  <Icon name="loading" class="animate-spin"/>
+  <Icon v-if="state.isLoading" name="loading" class="animate-spin"/>
+  <span v-else>Entrar</span>
   </button>
   </form>
 </div>
@@ -96,12 +97,12 @@ export default {
       hasErrors: false,
       isLoading: false,
       email: {
-        value: 'emailValue',
-        errorMessage: 'emailErrorMessage'
+        value: emailValue,
+        errorMessage: emailErrorMessage
       },
       password: {
-        value: 'passwordValue',
-        errorMessage: 'passwordErrorMessage'
+        value: passwordValue,
+        errorMessage: passwordErrorMessage
       }
     })
 
