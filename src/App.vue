@@ -6,6 +6,12 @@
 <script>
 import ModalFactory from './components/ModalFactory'
 export default {
-  components: { ModalFactory }
+  components: { ModalFactory },
+  setup () {
+    const router = useRouter()
+
+  }
 }
 </script>
+
+<!-- 8:55 copiar oq falta -->
