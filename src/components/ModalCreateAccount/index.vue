@@ -14,26 +14,7 @@
 
 <div class="mt-16">
   <form @submit.prevent="handleSubmit">
-    <label class="block">
-      <span class="text-lg font-medium text-gray-800">Nome</span>
-      <input
-        v-model="state.name.value"
-        type="text"
-        :class="{
-          'border-brand-danger': !!state.name.errorMessage
-        }"
-        class="block w-full px-4 py-3 mt-1 text-lg bg-gray-100 border-2 border-transparent rounded"
-        placeholder="Jone Doe"
-        >
-        <span
-          v-if="!!state.name.errorMessage"
-          class="block font-medium text-brand-danger"
-          >
-          {{ state.name.errorMessage }}
-        </span>
-    </label>
-
-    <label class="block">
+  <label class="block">
     <span class="text-lg font-medium text-gray-800">E-mail</span>
     <input
       v-model="state.email.value"
@@ -103,11 +84,6 @@ export default {
     const toast = useToast()
 
     const {
-      value: nameValue,
-      errorMessage: namedErrorMessage
-    } = useField('name', validateEmptyAndLength3)
-
-    const {
       value: emailValue,
       errorMessage: emailErrorMessage
     } = useField('email', validateEmptyAndEmail)
@@ -120,10 +96,6 @@ export default {
     const state = reactive({
       hasErrors: false,
       isLoading: false,
-      name: {
-        value: nameValue,
-        errorMessage: nameErrorMessage
-      },
       email: {
         value: emailValue,
         errorMessage: emailErrorMessage
@@ -134,44 +106,38 @@ export default {
       }
     })
 
-    async function login ({ email, password }) {
-      const { data, errors } = await services.auth.login({ email, password })
-      if (!errors) {
-        window.localStorage.setItem('token', data.token)
-        router.push({ name: 'Feedback' })
-        modal.close()
-      }
-      state.isLoading = false
-      
-    }
-
     async function handleSubmit () {
       try {
         toast.clear()
         state.isLoading = true
-        const { errors } = await services.auth.register({
-          name: state.name.value,
+        const { data, errors } = await services.auth.login({
           email: state.email.value,
           password: state.password.value
         })
 
         if (!errors) {
-          await login({
-            email: state.email.value,
-            password: state.password.value
-          })
+          window.localStorage.setItem('token', data.token)
+          state.isLoading = false
+          router.push({ name: 'Feedback' })
+          modal.close()
           return
         }
-        if (errors.status === 404) {
-          toast.error('Ocorreu um erro ao criar a conta')
-        }
 
+        if (errors.status === 404) {
+          toast.error('E-mail não encontrado')
+        }
+        if (errors.status === 401) {
+          toast.error('E-mail/senha inválido')
+        }
+        if (errors.status === 400) {
+          toast.error('Ocorreu um erro o fazer o login')
+        }
 
         state.isLoading = false
       } catch (error) {
         state.isLoading = false
         state.hasErrors = !!error
-        toast.error('Ocorreu um erro ao criar o login')
+        toast.error('Ocorreu um erro o fazer o login')
       }
     }
 

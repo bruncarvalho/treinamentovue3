@@ -1,6 +1,8 @@
 import router from '@/router'
+import { setGlobalLogin } from '@/store/global'
 import axios from 'axios'
 import AuthService from './auth'
+import UsersService from './users'
 
 const API_ENVS = {
   production: '',
@@ -13,6 +15,7 @@ const httpClient = axios.create({
 })
 
 httpClient.interceptors.request.use(config => {
+  setGlobalLogin(true)
   const token = window.localStorage.getItem('token')
 
   if (token) {
@@ -22,10 +25,14 @@ httpClient.interceptors.request.use(config => {
   return config
 })
 
-httpClient.interceptors.response.use((response) => response, (error) => {
+httpClient.interceptors.response.use((response) => {
+  setGlobalLogin(false)
+  return response
+}, (error) => {
   const canThrowAnError = error.request.status === 0 || error.request.status === 500
 
   if (canThrowAnError) {
+    setGlobalLogin(false)
     throw new Error(error.message)
   }
 
@@ -36,5 +43,6 @@ httpClient.interceptors.response.use((response) => response, (error) => {
 })
 
 export default {
-  auth: AuthService(httpClient)
+  auth: AuthService(httpClient),
+  users: UsersService(httpClient)
 }
