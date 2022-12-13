@@ -17,7 +17,9 @@
             >
                 Feedbacks
             </li>
-            <li class="px-6 py-2 font-bold bg-white rounded-full cursor-pointer text-brand-main focus:outline-none">
+            <li
+            @click="handleLogout"
+            class="px-6 py-2 font-bold bg-white rounded-full cursor-pointer text-brand-main focus:outline-none">
                 {{ logoutLabel }}
             </li>
         </ul>
@@ -27,6 +29,10 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import useStore from '../../hooks/useStore'
+import { cleanCurrentUser } from '../../store/user'
+
 export default {
   setup () {
     const router = useRouter()
@@ -36,11 +42,19 @@ export default {
       if (!store.currentUser.name) {
         return '...'
       }
+      return `${store.currentUser.name} (sair)`
     })
+
+    function handleLogout () {
+      window.localStorage.removeItem('token')
+      cleanCurrentUser()
+      router.push({ name: 'Home' })
+    }
 
     return {
       router,
-      logoutLabel
+      logoutLabel,
+      handleLogout
     }
   }
 }
