@@ -64,7 +64,7 @@ import Filters from './Filters'
 import FiltersLoading from './FiltersLoading'
 import HeaderLogged from '../../components/HeaderLogged'
 import FeedbackCard from '../../components/FeedbackCard'
-// import FeedbackCardLoading from '../../components/FeedbackCard/Loading'
+import FeedbackCardLoading from '../../components/FeedbackCard/Loading'
 import services from '../../services'
 
 export default {
@@ -72,8 +72,8 @@ export default {
     HeaderLogged,
     Filters,
     FiltersLoading,
-    FeedbackCard
-    // feedbackCardLoading
+    FeedbackCard,
+    FeedbackCardLoading
   },
   setup () {
     const state = reactive({
