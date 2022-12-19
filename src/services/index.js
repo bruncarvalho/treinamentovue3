@@ -3,6 +3,7 @@ import { setGlobalLogin } from '@/store/global'
 import axios from 'axios'
 import AuthService from './auth'
 import UsersService from './users'
+import FeedbacksService from './feedbacks'
 
 const API_ENVS = {
   production: '',
@@ -11,7 +12,7 @@ const API_ENVS = {
 }
 
 const httpClient = axios.create({
-  baseURL: API_ENVS.local
+  baseURL: API_ENVS[process.env.NODE_ENV] || API_ENVS.local
 })
 
 httpClient.interceptors.request.use(config => {
@@ -44,5 +45,6 @@ httpClient.interceptors.response.use((response) => {
 
 export default {
   auth: AuthService(httpClient),
-  users: UsersService(httpClient)
+  users: UsersService(httpClient),
+  feedbacks: FeedbacksService(httpClient)
 }

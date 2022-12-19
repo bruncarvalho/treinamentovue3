@@ -23,7 +23,7 @@
         'border-brand-danger': !!state.email.errorMessage
       }"
       class="block w-full px-4 py-3 mt-1 text-lg bg-gray-100 border-2 border-transparent rounded"
-      placeholder="jone.dae@gmail.com"
+      placeholder="jane.dae@gmail.com"
       >
       <span
         v-if="!!state.email.errorMessage"
@@ -42,7 +42,7 @@
         'border-brand-danger': !!state.password.errorMessage
       }"
       class="block w-full px-4 py-3 mt-1 text-lg bg-gray-100 border-2 border-transparent rounded"
-      placeholder="jone.dae@gmail.com"
+      placeholder="jane.dae@gmail.com"
       >
       <span
         v-if="!!state.password.errorMessage"
@@ -51,16 +51,17 @@
         {{ state.password.errorMessage }}
       </span>
   </label>
+
   <button
     :disabled="state.isLoading"
     type="submit"
     :class="{
-      'opacit-50' : state.isLoading
+      'opacit-50': state.isLoading
     }"
     class="px-8 py-3 mt-10 text-2xl font-bold text-white rounded-full bg-brand-main focus:outline-none transition-all duration-150"
   >
-  <Icon v-if="state.isLoading" name="loading" class="animate-spin"/>
-  <span v-else>Entrar</span>
+    <Icon v-if="state.isLoading" name="loading" class="animate-spin"/>
+    <span v-else>Entrar</span>
   </button>
   </form>
 </div>
@@ -74,7 +75,7 @@ import { useToast } from 'vue-toastification'
 import useModal from '../../hooks/useModal'
 import Icon from '../Icon'
 import { validateEmptyAndLength3, validateEmptyAndEmail } from '../../utils/validators'
-import services from '@/services'
+import services from '../../services'
 
 export default {
   components: { Icon },
@@ -118,7 +119,7 @@ export default {
         if (!errors) {
           window.localStorage.setItem('token', data.token)
           state.isLoading = false
-          router.push({ name: 'Feedback' })
+          router.push({ name: 'Feedbacks' })
           modal.close()
           return
         }
@@ -130,14 +131,14 @@ export default {
           toast.error('E-mail/senha inválido')
         }
         if (errors.status === 400) {
-          toast.error('Ocorreu um erro o fazer o login')
+          toast.error('Ocorreu um erro o fazer o login aqui')
         }
 
         state.isLoading = false
       } catch (error) {
         state.isLoading = false
         state.hasErrors = !!error
-        toast.error('Ocorreu um erro o fazer o login')
+        toast.error('Ocorreu um erro o fazer o login ali')
       }
     }
 

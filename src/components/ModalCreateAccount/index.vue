@@ -15,6 +15,25 @@
 <div class="mt-16">
   <form @submit.prevent="handleSubmit">
   <label class="block">
+    <span class="text-lg font-medium text-gray-800">Nome</span>
+    <input
+      v-model="state.name.value"
+      type="text"
+      :class="{
+        'border-brand-danger': !!state.name.errorMessage
+      }"
+      class="block w-full px-4 py-3 mt-1 text-lg bg-gray-100 border-2 border-transparent rounded"
+      placeholder="Jone Doe"
+      >
+      <span
+        v-if="!!state.name.errorMessage"
+        class="block font-medium text-brand-danger"
+        >
+        {{ state.name.errorMessage }}
+      </span>
+  </label>
+
+  <label class="block mt-9">
     <span class="text-lg font-medium text-gray-800">E-mail</span>
     <input
       v-model="state.email.value"
@@ -23,7 +42,7 @@
         'border-brand-danger': !!state.email.errorMessage
       }"
       class="block w-full px-4 py-3 mt-1 text-lg bg-gray-100 border-2 border-transparent rounded"
-      placeholder="jone.dae@gmail.com"
+      placeholder="jane.dae@gmail.com"
       >
       <span
         v-if="!!state.email.errorMessage"
@@ -42,7 +61,7 @@
         'border-brand-danger': !!state.password.errorMessage
       }"
       class="block w-full px-4 py-3 mt-1 text-lg bg-gray-100 border-2 border-transparent rounded"
-      placeholder="jone.dae@gmail.com"
+      placeholder="jane.dae@gmail.com"
       >
       <span
         v-if="!!state.password.errorMessage"
@@ -74,7 +93,7 @@ import { useToast } from 'vue-toastification'
 import useModal from '../../hooks/useModal'
 import Icon from '../Icon'
 import { validateEmptyAndLength3, validateEmptyAndEmail } from '../../utils/validators'
-import services from '@/services'
+import services from '../../services'
 
 export default {
   components: { Icon },
@@ -82,6 +101,11 @@ export default {
     const router = useRouter()
     const modal = useModal()
     const toast = useToast()
+
+    const {
+      value: nameValue,
+      errorMessage: nameErrorMessage
+    } = useField('name', validateEmptyAndLength3)
 
     const {
       value: emailValue,
@@ -96,6 +120,10 @@ export default {
     const state = reactive({
       hasErrors: false,
       isLoading: false,
+      name: {
+        value: nameValue,
+        errorMessage: nameErrorMessage
+      },
       email: {
         value: emailValue,
         errorMessage: emailErrorMessage
@@ -106,38 +134,45 @@ export default {
       }
     })
 
+    async function login ({ email, password }) {
+      const { data, errors } = await services.auth.login({ email, password })
+      if (!errors) {
+        window.localStorage.setItem('token', data.token)
+        router.push({ name: 'Feedbacks' })
+        modal.close()
+      }
+
+      state.isLoading = false
+    }
+
     async function handleSubmit () {
       try {
         toast.clear()
         state.isLoading = true
-        const { data, errors } = await services.auth.login({
+
+        const { errors } = await services.auth.register({
+          name: state.name.value,
           email: state.email.value,
           password: state.password.value
         })
 
         if (!errors) {
-          window.localStorage.setItem('token', data.token)
-          state.isLoading = false
-          router.push({ name: 'Feedback' })
-          modal.close()
+          await login({
+            email: state.email.value,
+            password: state.password.value
+          })
           return
         }
 
-        if (errors.status === 404) {
-          toast.error('E-mail não encontrado')
-        }
-        if (errors.status === 401) {
-          toast.error('E-mail/senha inválido')
-        }
         if (errors.status === 400) {
-          toast.error('Ocorreu um erro o fazer o login')
+          toast.error('Ocorreu um erro ao criar a conta')
         }
 
         state.isLoading = false
       } catch (error) {
         state.isLoading = false
         state.hasErrors = !!error
-        toast.error('Ocorreu um erro o fazer o login')
+        toast.error('Ocorreu um erro ao criar a conta')
       }
     }
 

@@ -15,17 +15,19 @@
               <component :is="state.component"/>
           </div>
       </div>
+
       </div>
       </div>
     </teleport>
   </template>
 
 <script>
-import { defineAsyncComponent, onBeforeMount, onMounted, reactive } from 'vue'
+import { reactive, onMounted, onBeforeUnmount, defineAsyncComponent } from 'vue'
 import useModal from '../../hooks/useModal'
 
 const ModalLogin = defineAsyncComponent(() => import('../ModalLogin'))
 const ModalCreateAccount = defineAsyncComponent(() => import('../ModalCreateAccount'))
+
 const DEFAULT_WIDTH = 'w-3/4 lg:w-1/3'
 
 export default {
@@ -46,7 +48,7 @@ export default {
       modal.listen(handleModalToogle)
     })
 
-    onBeforeMount(() => {
+    onBeforeUnmount(() => {
       modal.off(handleModalToogle)
     })
     function handleModalToogle (payload) {
