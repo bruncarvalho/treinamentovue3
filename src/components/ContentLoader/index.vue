@@ -13,6 +13,7 @@
 
 <script>
 import { computed } from 'vue'
+
 export default {
   props: {
     maxWidth: {
@@ -27,7 +28,7 @@ export default {
       type: String,
       default: '1.6s'
     },
-    heigth: {
+    height: {
       default: '1rem',
       type: String
     },
@@ -72,5 +73,4 @@ export default {
     background-size: 1000 100;
     animation: shimmer infinite alternate ease-in-out;
 }
-
 </style>

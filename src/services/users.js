@@ -1,6 +1,6 @@
-export default (httpClient) => ({
+export default httpClient => ({
   getMe: async () => {
-    const response = await httpClient.get('./user/me')
+    const response = await httpClient.get('/users/me')
 
     return {
       data: response.data

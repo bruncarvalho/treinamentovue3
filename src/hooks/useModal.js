@@ -10,6 +10,7 @@ export default function useModal () {
   function close (payload = {}) {
     bus.emit(EVENT_NAME, { status: false, ...payload })
   }
+
   function listen (fn) {
     bus.on(EVENT_NAME, fn)
   }

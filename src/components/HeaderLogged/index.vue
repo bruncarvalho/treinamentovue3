@@ -3,6 +3,7 @@
     <div class="w-28 lg:w-36">
         <img class="w-full" src="../../assets/image/logo_white.png" alt="logo">
     </div>
+
     <div class="flex">
         <ul class="flex list-none">
             <li

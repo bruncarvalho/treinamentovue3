@@ -29,13 +29,18 @@ export default {
       if (props.type === 'ISSUE') {
         return 'brand-danger'
       }
+
+      if (props.type === 'IDEA') {
+        return 'brand-warning'
+      }
+
       return 'brand-graydark'
     })
+
     return {
       label,
       classColor
     }
   }
-
 }
 </script>

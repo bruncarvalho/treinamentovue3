@@ -61,7 +61,7 @@
         'border-brand-danger': !!state.password.errorMessage
       }"
       class="block w-full px-4 py-3 mt-1 text-lg bg-gray-100 border-2 border-transparent rounded"
-      placeholder="jane.dae@gmail.com"
+      placeholder=""
       >
       <span
         v-if="!!state.password.errorMessage"
