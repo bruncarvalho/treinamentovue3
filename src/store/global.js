@@ -6,6 +6,6 @@ const state = reactive({
 
 export default state
 
-export function setGlobalLogin (status) {
+export function setGlobalLoading (status) {
   state.isLoading = status
 }

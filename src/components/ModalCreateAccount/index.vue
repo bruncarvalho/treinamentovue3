@@ -5,8 +5,8 @@
   </h1>
 
   <button
-  @click="close"
-  class="text-4xl text-gray-600 focus:outline-none"
+    @click="close"
+    class="text-4xl text-gray-600 focus:outline-none"
   >
     &times;
   </button>
@@ -47,7 +47,7 @@
       <span
         v-if="!!state.email.errorMessage"
         class="block font-medium text-brand-danger"
-        >
+      >
         {{ state.email.errorMessage }}
       </span>
   </label>
@@ -74,12 +74,12 @@
     :disabled="state.isLoading"
     type="submit"
     :class="{
-      'opacit-50' : state.isLoading
+      'opacity-50' : state.isLoading
     }"
     class="px-8 py-3 mt-10 text-2xl font-bold text-white rounded-full bg-brand-main focus:outline-none transition-all duration-150"
   >
-  <Icon v-if="state.isLoading" name="loading" class="animate-spin"/>
-  <span v-else>Entrar</span>
+    <icon v-if="state.isLoading" name="loading" class="animate-spin" />
+    <span v-else>Entrar</span>
   </button>
   </form>
 </div>

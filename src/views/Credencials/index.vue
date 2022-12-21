@@ -30,7 +30,7 @@
 
           <div
           v-else
-          class="flex py-3 pl-5 mt-2 justify-between rounded items-center bg-brand-gray w-full lg:w-1/2"
+          class="flex py-3 pl-5 mt-2 rounded justify-between items-center bg-brand-gray w-full lg:w-1/2"
           >
           <span v-if="state.hasError">Erro ao carregar a apikey</span>
           <span v-else>{{ store.User.currentUser.apikey }}</span>
@@ -63,10 +63,9 @@
           width="600px"
           height="50px"
           />
-
           <div
           v-else
-          class="py-3 pl-5 pr-20 mt-2 rounded bg-brand-gray w-full lg:w-1/2 overflow-x-scroll"
+          class="py-3 pl-5 pr-20 mt-2 rounded bg-brand-gray w-full lg:w-2/3 overflow-x-scroll"
           >
           <span v-if="state.hasError">Erro ao carregar o script</span>
             <pre v-else>
@@ -122,11 +121,12 @@ export default {
 
     async function handleCopy () {
       toast.clear()
+
       try {
         await navigator.clipboard.writeText(store.User.currentUser.apiKey)
         toast.success('Copiado!')
       } catch (error) {
-        handleError()
+        handleError(error)
       }
     }
 

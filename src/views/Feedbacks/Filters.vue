@@ -14,15 +14,13 @@
     class="flex items-center justify-between px-4 py-1 rounded cusor-pointer"
         >
         <div class="flex items-center">
-            <span
-            :class="`bg-${filter.color}`"
-            class="inline-block w-2 h-2 mr-2 rounded-full"
-            />
-            {{ filter.label }}
+          <span
+            :class="filter.color.bg"
+            class="inline-block w-2 h-2 mr-2 rounded-full"/> {{ filter.label }}
         </div>
         <span
-        :class="filter.active ? `text-${filter.color}` : 'text-brand-graydark'"
-        class="font-bold"
+          :class="filter.active ? filter.color.text : 'text-brand-graydark'"
+          class="font-bold"
         >
         {{ filter.amount }}
 
@@ -35,7 +33,7 @@
 <script>
 import { reactive } from 'vue'
 import services from '../../services'
-import useStore from '@/hooks/useStore'
+import useStore from '../../hooks/useStore'
 
 // de para de labels, para não criar muitos 'ifs'
 
@@ -47,10 +45,10 @@ const LABELS = {
 }
 
 const COLORS = {
-  all: 'brand-info',
-  issue: 'brand-danger',
-  idea: 'brand-warning',
-  other: 'brand-graydark'
+  all: { text: 'text-brand-info', bg: 'bg-brand-info' },
+  issue: { text: 'text-brand-danger', bg: 'bg-brand-danger' },
+  idea: { text: 'text-brand-warning', bg: 'bg-brand-warning' },
+  other: { text: 'text-brand-graydark', bg: 'bg-brand-graydark' }
 }
 
 function applyFiltersStructure (summary) {
@@ -70,7 +68,7 @@ function applyFiltersStructure (summary) {
 }
 
 export default {
-  async setup (props, { emit }) {
+  async setup (_, { emit }) {
     const store = useStore('Global')
     const state = reactive({
       hasError: false,

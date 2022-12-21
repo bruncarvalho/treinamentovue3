@@ -43,6 +43,7 @@
             class="text-lg text-center text-gray-800 font-regular">
               Ainda nenhum feedback recebido ☹️
             </p>
+
             <feedback-card-loading v-if="state.isLoading || state.isLoadingFeedbacks"/>
             <feedback-card
             v-else
@@ -60,7 +61,7 @@
 </template>
 
 <script>
-import { onErrorCaptured, onMounted, onUnmounted, reactive } from 'vue'
+import { reactive, onMounted, onUnmounted, onErrorCaptured } from 'vue'
 import Filters from './Filters'
 import FiltersLoading from './FiltersLoading'
 import HeaderLogged from '../../components/HeaderLogged'
@@ -97,12 +98,13 @@ export default {
       window.addEventListener('scroll', handleScroll, false)
     })
     onUnmounted(() => {
-      window.addEventListener('scroll', handleScroll, false)
+      window.removeEventListener('scroll', handleScroll, false)
     })
 
     function handleErrors (error) {
       state.isLoading = false
       state.isLoadingFeedbacks = false
+      state.isLoadingMoreFeedbacks = false
       state.hasError = !!error
     }
 
@@ -140,7 +142,10 @@ export default {
         state.pagination.offset = 0
         state.pagination.limit = 5
         state.currentFeedbackType = type
-        const { data } = await services.feedbacks.getAll({ type, ...state.pagination })
+        const { data } = await services.feedbacks.getAll({
+          type,
+          ...state.pagination
+        })
 
         state.feedbacks = data.results
         state.pagination = data.pagination

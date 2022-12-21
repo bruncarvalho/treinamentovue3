@@ -56,11 +56,11 @@
     :disabled="state.isLoading"
     type="submit"
     :class="{
-      'opacit-50': state.isLoading
+      'opacity-50': state.isLoading
     }"
     class="px-8 py-3 mt-10 text-2xl font-bold text-white rounded-full bg-brand-main focus:outline-none transition-all duration-150"
   >
-    <Icon v-if="state.isLoading" name="loading" class="animate-spin"/>
+    <icon v-if="state.isLoading" name="loading" class="animate-spin"/>
     <span v-else>Entrar</span>
   </button>
   </form>
@@ -118,8 +118,8 @@ export default {
 
         if (!errors) {
           window.localStorage.setItem('token', data.token)
-          state.isLoading = false
           router.push({ name: 'Feedbacks' })
+          state.isLoading = false
           modal.close()
           return
         }
@@ -131,7 +131,7 @@ export default {
           toast.error('E-mail/senha inválido')
         }
         if (errors.status === 400) {
-          toast.error('Ocorreu um erro o fazer o login aqui')
+          toast.error('Ocorreu um erro ao fazer o login aqui')
         }
 
         state.isLoading = false

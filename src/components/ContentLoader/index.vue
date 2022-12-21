@@ -8,7 +8,7 @@
   >
     <span :style="{ animationDuration }" class="content-loader--fx"/>
     <slot />
-</div>
+  </div>
 </template>
 
 <script>
@@ -50,27 +50,27 @@ export default {
 
 <style lang="postcss" scoped>
 @keyframes shimmer {
-    100% {
-        transform: translateX(100%);
-    }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .content-loader {
-    position: relative;
-    vertical-align: middle;
-    overflow: hidden;
-    background: #f6f7f8;
+  position: relative;
+  vertical-align: middle;
+  overflow: hidden;
+  background: #f6f7f8;
 }
 .content-loader--fx {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    transform: translatex(-100%);
-    background-image: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
-    background-position: 0 0;
-    background-size: 1000 100;
-    animation: shimmer infinite alternate ease-in-out;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+  background-position: 0 0;
+  background-size: 1000 100;
+  animation: shimmer infinite alternate ease-in-out;
 }
 </style>
